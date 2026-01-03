@@ -1,4 +1,3 @@
-````markdown
 # 🏨 Hotel Management System
 
 A comprehensive hotel management system built with React.js, Node.js, and MySQL. This system provides complete hotel management capabilities including room booking, guest management, housekeeping, payments, and reporting.
@@ -38,7 +37,6 @@ A comprehensive hotel management system built with React.js, Node.js, and MySQL.
    git clone <repository-url>
    cd hotel-management-system
    ```
-````
 
 2. **Backend Setup**
 
