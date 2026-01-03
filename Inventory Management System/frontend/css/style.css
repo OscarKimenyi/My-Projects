@@ -1,0 +1,537 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+body.dark-theme {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+}
+
+/* Report button specific styles */
+.report-btn {
+  background-color: #27ae60;
+  color: white;
+}
+
+.report-btn:hover {
+  background-color: #219653;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+body.dark-theme header {
+  background: #2d2d2d;
+  color: #e0e0e0;
+}
+
+header h1 {
+  color: #2c3e50;
+  margin-bottom: 0;
+}
+
+body.dark-theme header h1 {
+  color: #3498db;
+}
+
+/* .theme-toggle {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+} */
+
+.theme-toggle {
+  display: none;
+}
+
+.theme-toggle:hover {
+  background: #2980b9;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* nav a {
+  text-decoration: none;
+  color: #7f8c8d;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+} */
+
+nav a,
+.nav-link {
+  text-decoration: none;
+  color: #7f8c8d;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+/* body.dark-theme nav a {
+  color: #b0b0b0;
+} */
+
+body.dark-theme nav a,
+body.dark-theme .nav-link {
+  color: #b0b0b0;
+}
+
+nav a:hover,
+nav a.active,
+.nav-link:hover,
+.nav-link.active {
+  background-color: #3498db;
+  color: white;
+}
+
+.section {
+  display: none;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-theme .section {
+  background: #2d2d2d;
+  color: #e0e0e0;
+}
+
+.section.active {
+  display: block;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #3498db;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2980b9;
+}
+
+.btn-danger {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c0392b;
+}
+
+.search-bar {
+  margin-bottom: 20px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+body.dark-theme .search-bar input {
+  background: #3d3d3d;
+  border-color: #555;
+  color: #e0e0e0;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+body.dark-theme th,
+body.dark-theme td {
+  border-color: #555;
+  color: #e0e0e0;
+}
+
+th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+body.dark-theme th {
+  background-color: #3d3d3d;
+}
+
+tr:hover {
+  background-color: #f8f9fa;
+}
+
+body.dark-theme tr:hover {
+  background-color: #3d3d3d;
+}
+
+/* Modal Styles - FIXED */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.modal-content {
+  background-color: white;
+  margin: 2% auto;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  max-height: 90vh; /* Limit height */
+  overflow-y: auto; /* Enable scrolling for content */
+}
+
+body.dark-theme .modal-content {
+  background-color: #2d2d2d;
+  color: #e0e0e0;
+}
+
+.close {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #999;
+}
+
+.close:hover {
+  color: #333;
+}
+
+body.dark-theme .close:hover {
+  color: #e0e0e0;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+body.dark-theme .form-group input,
+body.dark-theme .form-group select,
+body.dark-theme .form-group textarea {
+  background: #3d3d3d;
+  border-color: #555;
+  color: #e0e0e0;
+}
+
+.form-group textarea {
+  height: 80px;
+  resize: vertical;
+}
+
+.alert {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.alert-warning {
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  color: #856404;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+/* Form grid for better layout */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-content {
+    margin: 5% auto;
+    width: 95%;
+    padding: 20px;
+  }
+}
+
+/* Report Styles */
+.report-btn {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.report-btn:hover {
+  background-color: #219653;
+}
+
+.report-summary {
+  margin: 20px 0;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.summary-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #3498db;
+}
+
+body.dark-theme .summary-card {
+  background: #3d3d3d;
+  color: #e0e0e0;
+}
+
+.summary-card h5 {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: #7f8c8d;
+}
+
+.summary-card .amount {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.summary-card .profit {
+  color: #27ae60;
+}
+
+.summary-card .loss {
+  color: #e74c3c;
+}
+
+.report-section {
+  margin: 30px 0;
+}
+
+.report-section h5 {
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+  color: #2c3e50;
+}
+
+body.dark-theme .report-section h5 {
+  color: #e0e0e0;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+}
+
+.report-table th,
+.report-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+body.dark-theme .report-table th,
+body.dark-theme .report-table td {
+  border-color: #555;
+}
+
+.report-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+body.dark-theme .report-table th {
+  background-color: #3d3d3d;
+}
+
+.report-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #3498db;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.btn-secondary {
+  background-color: #95a5a6;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #7f8c8d;
+}
+
+/* Ensure navigation buttons have consistent styling */
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+nav a,
+.nav-link {
+  text-decoration: none;
+  color: #7f8c8d;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+}
+
+body.dark-theme nav a,
+body.dark-theme .nav-link {
+  color: #b0b0b0;
+}
+
+nav a:hover,
+nav a.active,
+.nav-link:hover {
+  background-color: #3498db;
+  color: white;
+}
+
+/* Specific styles for theme toggle in nav */
+.nav-link.theme-toggle {
+  background-color: #9b59b6;
+  color: white;
+}
+
+.nav-link.theme-toggle:hover {
+  background-color: #8e44ad;
+}
+
+/* Responsive design for navigation */
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  nav a,
+  .nav-link {
+    width: 100%;
+    text-align: left;
+  }
+}

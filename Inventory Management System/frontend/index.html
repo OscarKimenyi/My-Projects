@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inventory Management System</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Inventory Management System</h1>
+        <!-- <nav>
+          <ul>
+            <li>
+              <a href="#" class="nav-link active" data-section="dashboard"
+                >Dashboard</a
+              >
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="products">Products</a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="purchases"
+                >Purchases</a
+              >
+            </li>
+            <li><a href="#" class="nav-link" data-section="sales">Sales</a></li>
+            <li>
+              <a href="#" class="nav-link" data-section="suppliers"
+                >Suppliers</a
+              >
+            </li>
+            <li>
+              <button
+                class="nav-link report-btn"
+                onclick="generateMonthlyReport()"
+              >
+                📊 Monthly Report
+              </button>
+            </li>
+            <li>
+              <button class="nav-link theme-toggle" onclick="toggleTheme()">
+                🌙 Dark
+              </button>
+            </li>
+          </ul>
+        </nav> -->
+        <nav>
+          <ul>
+            <li>
+              <a href="#" class="nav-link active" data-section="dashboard"
+                >Dashboard</a
+              >
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="products">Products</a>
+            </li>
+            <li>
+              <a href="#" class="nav-link" data-section="purchases"
+                >Purchases</a
+              >
+            </li>
+            <li><a href="#" class="nav-link" data-section="sales">Sales</a></li>
+            <li>
+              <a href="#" class="nav-link" data-section="suppliers"
+                >Suppliers</a
+              >
+            </li>
+            <li>
+              <button
+                class="nav-link report-btn"
+                onclick="generateMonthlyReport()"
+              >
+                📊 Monthly Report
+              </button>
+            </li>
+            <li>
+              <button
+                class="nav-link"
+                onclick="EnhancedReports.generateProfitLossReport()"
+              >
+                💰 P&L Report
+              </button>
+            </li>
+            <li>
+              <button
+                class="nav-link"
+                onclick="EnhancedReports.generateInventoryValuation()"
+              >
+                📦 Inventory Value
+              </button>
+            </li>
+            <li>
+              <button class="nav-link" onclick="checkLowStock()">
+                🔔 Check Low Stock
+              </button>
+            </li>
+            <li>
+              <button class="nav-link theme-toggle" onclick="toggleTheme()">
+                🌙 Dark
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <!-- ... rest of the HTML remains the same ... -->
+
+      <main>
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+          <h2>Dashboard</h2>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <h3>Total Products</h3>
+              <p id="total-products">0</p>
+            </div>
+            <div class="stat-card">
+              <h3>Monthly Sales</h3>
+              <p id="monthly-sales">$0.00</p>
+            </div>
+            <div class="stat-card">
+              <h3>Low Stock Items</h3>
+              <p id="low-stock-items">0</p>
+            </div>
+          </div>
+
+          <div class="dashboard-content">
+            <div class="recent-sales">
+              <h3>Recent Sales</h3>
+              <div id="recent-sales-list"></div>
+            </div>
+            <div class="low-stock-alerts">
+              <h3>Low Stock Alerts</h3>
+              <div id="low-stock-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="section">
+          <div class="section-header">
+            <h2>Products</h2>
+            <button class="btn btn-primary" onclick="openProductModal()">
+              Add Product
+            </button>
+          </div>
+
+          <div class="search-bar">
+            <input
+              type="text"
+              id="product-search"
+              placeholder="Search products..."
+              onkeyup="searchProducts()"
+            />
+          </div>
+
+          <div class="table-container">
+            <table id="products-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>SKU</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>Supplier</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="products-tbody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Purchases Section -->
+        <section id="purchases" class="section">
+          <div class="section-header">
+            <h2>Purchases</h2>
+            <button class="btn btn-primary" onclick="openPurchaseModal()">
+              Add Purchase
+            </button>
+          </div>
+          <div class="table-container">
+            <table id="purchases-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Supplier</th>
+                  <th>Quantity</th>
+                  <th>Unit Cost</th>
+                  <th>Total Cost</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="purchases-tbody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Sales Section -->
+        <section id="sales" class="section">
+          <div class="section-header">
+            <h2>Sales</h2>
+            <button class="btn btn-primary" onclick="openSaleModal()">
+              Add Sale
+            </button>
+          </div>
+          <div class="table-container">
+            <table id="sales-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Quantity</th>
+                  <th>Unit Price</th>
+                  <th>Total Price</th>
+                  <th>Customer</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="sales-tbody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Suppliers Section -->
+        <section id="suppliers" class="section">
+          <div class="section-header">
+            <h2>Suppliers</h2>
+            <button class="btn btn-primary" onclick="openSupplierModal()">
+              Add Supplier
+            </button>
+          </div>
+          <div class="table-container">
+            <table id="suppliers-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Contact Person</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="suppliers-tbody"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3 id="product-modal-title">Add Product</h3>
+        <form id="product-form">
+          <input type="hidden" id="product-id" />
+          <div class="form-row">
+            <div class="form-group">
+              <label for="product-name">Name:</label>
+              <input type="text" id="product-name" required />
+            </div>
+            <div class="form-group">
+              <label for="product-sku">SKU:</label>
+              <input type="text" id="product-sku" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="product-description">Description:</label>
+            <textarea id="product-description"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="product-category">Category:</label>
+              <input type="text" id="product-category" />
+            </div>
+            <div class="form-group">
+              <label for="product-supplier">Supplier:</label>
+              <select id="product-supplier">
+                <option value="">Select Supplier</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="product-price">Price:</label>
+              <input type="number" id="product-price" step="0.01" required />
+            </div>
+            <div class="form-group">
+              <label for="product-cost">Cost:</label>
+              <input type="number" id="product-cost" step="0.01" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="product-stock">Stock Quantity:</label>
+              <input type="number" id="product-stock" required />
+            </div>
+            <div class="form-group">
+              <label for="product-min-stock">Min Stock Level:</label>
+              <input type="number" id="product-min-stock" required />
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Product</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Supplier Modal -->
+    <div id="supplier-modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3 id="supplier-modal-title">Add Supplier</h3>
+        <form id="supplier-form">
+          <input type="hidden" id="supplier-id" />
+          <div class="form-group">
+            <label for="supplier-name">Supplier Name:</label>
+            <input type="text" id="supplier-name" required />
+          </div>
+          <div class="form-group">
+            <label for="supplier-contact">Contact Person:</label>
+            <input type="text" id="supplier-contact" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="supplier-email">Email:</label>
+              <input type="email" id="supplier-email" />
+            </div>
+            <div class="form-group">
+              <label for="supplier-phone">Phone:</label>
+              <input type="text" id="supplier-phone" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="supplier-address">Address:</label>
+            <textarea id="supplier-address"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Supplier</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Purchase Modal -->
+    <div id="purchase-modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Add Purchase</h3>
+        <form id="purchase-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="purchase-product">Product:</label>
+              <select id="purchase-product" required>
+                <option value="">Select Product</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="purchase-supplier">Supplier:</label>
+              <select id="purchase-supplier" required>
+                <option value="">Select Supplier</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="purchase-quantity">Quantity:</label>
+              <input type="number" id="purchase-quantity" required />
+            </div>
+            <div class="form-group">
+              <label for="purchase-unit-cost">Unit Cost:</label>
+              <input
+                type="number"
+                id="purchase-unit-cost"
+                step="0.01"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="purchase-date">Purchase Date:</label>
+            <input type="date" id="purchase-date" required />
+          </div>
+          <div class="form-group">
+            <label for="purchase-notes">Notes:</label>
+            <textarea id="purchase-notes"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Purchase</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Sale Modal -->
+    <div id="sale-modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Add Sale</h3>
+        <form id="sale-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="sale-product">Product:</label>
+              <select id="sale-product" required>
+                <option value="">Select Product</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="sale-quantity">Quantity:</label>
+              <input type="number" id="sale-quantity" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="sale-unit-price">Unit Price:</label>
+              <input type="number" id="sale-unit-price" step="0.01" required />
+            </div>
+            <div class="form-group">
+              <label for="sale-customer">Customer Name:</label>
+              <input type="text" id="sale-customer" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="sale-date">Sale Date:</label>
+            <input type="date" id="sale-date" required />
+          </div>
+          <div class="form-group">
+            <label for="sale-notes">Notes:</label>
+            <textarea id="sale-notes"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Sale</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/purchases.js"></script>
+    <script src="js/sales.js"></script>
+    <script src="js/suppliers.js"></script>
+    <script src="js/reports.js"></script>
+    <script src="js/barcode.js"></script>
+    <script src="js/enhanced-reports.js"></script>
+    <script src="js/notifications.js"></script>
+  </body>
+</html>
