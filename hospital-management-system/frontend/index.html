@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hospital Management System - Login</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      .login-container {
+        max-width: 400px;
+        margin: 100px auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .login-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .login-header h1 {
+        color: #667eea;
+        margin-bottom: 0.5rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #333;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #e1e5e9;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      .login-btn {
+        width: 100%;
+        padding: 0.75rem;
+        background: #667eea;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .login-btn:hover {
+        background: #5a6fd8;
+      }
+
+      .test-credentials {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        font-size: 0.9rem;
+      }
+
+      .test-credentials h3 {
+        margin-top: 0;
+        color: #333;
+      }
+
+      .credential-item {
+        margin: 0.5rem 0;
+        padding: 0.5rem;
+        background: white;
+        border-radius: 5px;
+        border-left: 4px solid #667eea;
+      }
+
+      .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 0.75rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        display: none;
+      }
+
+      .success-message {
+        background: #d1edff;
+        color: #0c5460;
+        padding: 0.75rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="login-header">
+        <h1>🏥 Hospital Management System</h1>
+        <p>Please login to continue</p>
+      </div>
+
+      <div id="error-message" class="error-message"></div>
+      <div id="success-message" class="success-message"></div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            required
+            placeholder="Enter your username"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            placeholder="Enter your password"
+          />
+        </div>
+
+        <button type="submit" class="login-btn">Login</button>
+      </form>
+
+      <div class="test-credentials">
+        <h3>Test Credentials:</h3>
+        <div class="credential-item">
+          <strong>superadmin</strong> / password123 (Full access)
+        </div>
+        <div class="credential-item">
+          <strong>admin</strong> / password123 (Admin access)
+        </div>
+        <div class="credential-item">
+          <strong>dr_smith</strong> / password123 (Doctor access)
+        </div>
+        <div class="credential-item">
+          <strong>nurse_mary</strong> / password123 (Nurse access)
+        </div>
+        <div class="credential-item">
+          <strong>reception1</strong> / password123 (Receptionist access)
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const loginForm = document.getElementById("login-form");
+      const errorMessage = document.getElementById("error-message");
+      const successMessage = document.getElementById("success-message");
+
+      loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        // Hide previous messages
+        errorMessage.style.display = "none";
+        successMessage.style.display = "none";
+
+        try {
+          const response = await fetch("http://localhost:5000/api/auth/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: username,
+              password: password,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            // Login successful
+            successMessage.textContent = `Login successful! Welcome ${data.data.user.first_name} ${data.data.user.last_name} (${data.data.user.role})`;
+            successMessage.style.display = "block";
+
+            // Store token and user data
+            localStorage.setItem("token", data.data.token);
+            localStorage.setItem("user", JSON.stringify(data.data.user));
+
+            // Redirect to main application after 2 seconds
+            setTimeout(() => {
+              window.location.href = "dashboard.html";
+            }, 2000);
+          } else {
+            // Login failed
+            errorMessage.textContent = data.message || "Login failed";
+            errorMessage.style.display = "block";
+          }
+        } catch (error) {
+          errorMessage.textContent =
+            "Network error. Please check if the server is running.";
+          errorMessage.style.display = "block";
+          console.error("Login error:", error);
+        }
+      });
+
+      // Auto-fill for testing
+      document
+        .getElementById("username")
+        .addEventListener("dblclick", function () {
+          this.value = "superadmin";
+          document.getElementById("password").value = "password123";
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="js/auth.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hospital Management System</title>
+    <link rel="stylesheet" href="css/styles.css" />
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+
+      <header class="header">
+        <div class="logo">
+          <i class="fas fa-hospital"></i>
+          <h1>Hospital Management System</h1>
+        </div>
+        <nav class="nav">
+          <button class="nav-btn active" data-page="dashboard">
+            Dashboard
+          </button>
+          <button class="nav-btn" data-page="patients">Patients</button>
+          <button class="nav-btn" data-page="appointments">Appointments</button>
+          <button class="nav-btn" data-page="pharmacy">Pharmacy</button>
+          <button class="nav-btn" data-page="laboratory">Laboratory</button>
+          <button class="nav-btn" data-page="billing">Billing</button>
+        </nav>
+        <div class="user-info">
+          <span id="user-welcome">Welcome, User</span>
+          <div class="user-dropdown">
+            <button class="user-btn" id="user-menu">
+              <i class="fas fa-user-circle"></i>
+              <span id="user-name">User</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="#" id="profile-btn"
+                ><i class="fas fa-user"></i> Profile</a
+              >
+              <a href="#" id="change-password-btn"
+                ><i class="fas fa-key"></i> Change Password</a
+              >
+              <a href="#" id="logout-btn"
+                ><i class="fas fa-sign-out-alt"></i> Logout</a
+              >
+            </div>
+          </div>
+        </div>
+      </header>
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page active">
+          <div class="page-header">
+            <h2>Dashboard</h2>
+            <p>Welcome to Hospital Management System</p>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="total-patients">0</h3>
+                <p>Total Patients</p>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-calendar-check"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="total-appointments">0</h3>
+                <p>Total Appointments</p>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="today-appointments">0</h3>
+                <p>Today's Appointments</p>
+              </div>
+            </div>
+
+            <!-- Phase 2 Stats -->
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-pills"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="total-drugs">0</h3>
+                <p>Total Drugs</p>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="low-stock-drugs">0</h3>
+                <p>Low Stock Drugs</p>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-flask"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="total-lab-tests">0</h3>
+                <p>Lab Tests</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="recent-activity">
+            <h3>Recent Activity</h3>
+            <div id="recent-activities" class="activity-list">
+              <!-- Activities will be loaded here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Patients Page -->
+        <div id="patients-page" class="page">
+          <div class="page-header">
+            <h2>Patient Management</h2>
+            <button class="btn btn-primary" id="add-patient-btn">
+              <i class="fas fa-plus"></i> Add New Patient
+            </button>
+          </div>
+
+          <div class="search-bar">
+            <input
+              type="text"
+              id="patient-search"
+              placeholder="Search patients by name, ID, email, or phone..."
+            />
+            <button class="btn btn-secondary" id="search-patient-btn">
+              <i class="fas fa-search"></i> Search
+            </button>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Patient ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Gender</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="patients-table-body">
+                <!-- Patients will be loaded here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Appointments Page -->
+        <div id="appointments-page" class="page">
+          <div class="page-header">
+            <h2>Appointment Management</h2>
+            <button class="btn btn-primary" id="add-appointment-btn">
+              <i class="fas fa-plus"></i> Schedule Appointment
+            </button>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Appointment ID</th>
+                  <th>Patient</th>
+                  <th>Doctor</th>
+                  <th>Date & Time</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="appointments-table-body">
+                <!-- Appointments will be loaded here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- Pharmacy Page -->
+        <div id="pharmacy-page" class="page">
+          <div class="page-header">
+            <h2>Pharmacy Management</h2>
+            <div>
+              <button class="btn btn-secondary" id="view-low-stock-btn">
+                <i class="fas fa-exclamation-triangle"></i> Low Stock
+              </button>
+              <button class="btn btn-primary" id="add-drug-btn">
+                <i class="fas fa-plus"></i> Add New Drug
+              </button>
+            </div>
+          </div>
+
+          <div class="search-bar">
+            <input
+              type="text"
+              id="drug-search"
+              placeholder="Search drugs by name, brand, or category..."
+            />
+            <button class="btn btn-secondary" id="search-drug-btn">
+              <i class="fas fa-search"></i> Search
+            </button>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Drug ID</th>
+                  <th>Name</th>
+                  <th>Brand</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="drugs-table-body">
+                <!-- Drugs will be loaded here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Laboratory Page -->
+        <div id="laboratory-page" class="page">
+          <div class="page-header">
+            <h2>Laboratory Management</h2>
+            <button class="btn btn-primary" id="add-lab-test-btn">
+              <i class="fas fa-plus"></i> Add New Test
+            </button>
+          </div>
+
+          <div class="search-bar">
+            <input
+              type="text"
+              id="lab-test-search"
+              placeholder="Search lab tests by name or category..."
+            />
+            <button class="btn btn-secondary" id="search-lab-test-btn">
+              <i class="fas fa-search"></i> Search
+            </button>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Test ID</th>
+                  <th>Test Name</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Turnaround Time</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="lab-tests-table-body">
+                <!-- Lab tests will be loaded here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Billing Page -->
+        <div id="billing-page" class="page">
+          <div class="page-header">
+            <h2>Billing Management</h2>
+            <p>Billing module coming soon...</p>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Patient Modal -->
+    <div id="patient-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="patient-modal-title">Add New Patient</h3>
+          <span class="close">&times;</span>
+        </div>
+        <form id="patient-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="first_name">First Name *</label>
+              <input type="text" id="first_name" name="first_name" required />
+            </div>
+            <div class="form-group">
+              <label for="last_name">Last Name *</label>
+              <input type="text" id="last_name" name="last_name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone *</label>
+              <input type="tel" id="phone" name="phone" required />
+            </div>
+            <div class="form-group">
+              <label for="date_of_birth">Date of Birth</label>
+              <input type="date" id="date_of_birth" name="date_of_birth" />
+            </div>
+            <div class="form-group">
+              <label for="gender">Gender</label>
+              <select id="gender" name="gender">
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="address">Address</label>
+            <textarea id="address" name="address" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="insurance_id">Insurance ID</label>
+            <input type="text" id="insurance_id" name="insurance_id" />
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="cancel-patient">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">Save Patient</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Appointment Modal -->
+    <div id="appointment-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="appointment-modal-title">Schedule Appointment</h3>
+          <span class="close">&times;</span>
+        </div>
+        <form id="appointment-form">
+          <div class="form-group">
+            <label for="patient_id">Patient *</label>
+            <select id="patient_id" name="patient_id" required>
+              <option value="">Select Patient</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="doctor_name">Doctor Name *</label>
+            <input type="text" id="doctor_name" name="doctor_name" required />
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="appointment_date">Date *</label>
+              <input
+                type="date"
+                id="appointment_date"
+                name="appointment_date"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="appointment_time">Time *</label>
+              <input
+                type="time"
+                id="appointment_time"
+                name="appointment_time"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="appointment_type">Appointment Type</label>
+              <select id="appointment_type" name="appointment_type">
+                <option value="Consultation">Consultation</option>
+                <option value="Checkup">Checkup</option>
+                <option value="Follow-up">Follow-up</option>
+                <option value="Emergency">Emergency</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="status">Status</label>
+              <select id="status" name="status">
+                <option value="Scheduled">Scheduled</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="No-show">No-show</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="reason">Reason</label>
+            <textarea id="reason" name="reason" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="notes">Notes</label>
+            <textarea id="notes" name="notes" rows="2"></textarea>
+          </div>
+          <div class="form-actions">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="cancel-appointment"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Save Appointment
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Drug Modal -->
+    <div id="drug-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="drug-modal-title">Add New Drug</h3>
+          <span class="close">&times;</span>
+        </div>
+        <form id="drug-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="drug_name">Drug Name *</label>
+              <input type="text" id="drug_name" name="name" required />
+            </div>
+            <div class="form-group">
+              <label for="brand">Brand</label>
+              <input type="text" id="brand" name="brand" />
+            </div>
+            <div class="form-group">
+              <label for="category">Category</label>
+              <input type="text" id="category" name="category" />
+            </div>
+            <div class="form-group">
+              <label for="unit_price">Unit Price *</label>
+              <input
+                type="number"
+                id="unit_price"
+                name="unit_price"
+                step="0.01"
+                min="0"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="stock_quantity">Stock Quantity *</label>
+              <input
+                type="number"
+                id="stock_quantity"
+                name="stock_quantity"
+                min="0"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="reorder_level">Reorder Level *</label>
+              <input
+                type="number"
+                id="reorder_level"
+                name="reorder_level"
+                min="0"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="3"></textarea>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="expiry_date">Expiry Date</label>
+              <input type="date" id="expiry_date" name="expiry_date" />
+            </div>
+            <div class="form-group">
+              <label for="supplier">Supplier</label>
+              <input type="text" id="supplier" name="supplier" />
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="cancel-drug">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">Save Drug</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Lab Test Modal -->
+    <div id="lab-test-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="lab-test-modal-title">Add New Lab Test</h3>
+          <span class="close">&times;</span>
+        </div>
+        <form id="lab-test-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="test_name">Test Name *</label>
+              <input type="text" id="test_name" name="test_name" required />
+            </div>
+            <div class="form-group">
+              <label for="test_category">Category</label>
+              <input type="text" id="test_category" name="category" />
+            </div>
+            <div class="form-group">
+              <label for="test_price">Price *</label>
+              <input
+                type="number"
+                id="test_price"
+                name="price"
+                step="0.01"
+                min="0"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="turnaround_time">Turnaround Time</label>
+              <input
+                type="text"
+                id="turnaround_time"
+                name="turnaround_time"
+                placeholder="e.g., 24 hours"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="test_description">Description</label>
+            <textarea
+              id="test_description"
+              name="description"
+              rows="3"
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="normal_range">Normal Range</label>
+            <textarea
+              id="normal_range"
+              name="normal_range"
+              rows="2"
+              placeholder="e.g., 70-100 mg/dL"
+            ></textarea>
+          </div>
+          <div class="form-actions">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="cancel-lab-test"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">Save Test</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profile-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>User Profile</h3>
+          <span class="close">&times;</span>
+        </div>
+        <form id="profile-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="profile-first-name">First Name</label>
+              <input
+                type="text"
+                id="profile-first-name"
+                name="first_name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="profile-last-name">Last Name</label>
+              <input
+                type="text"
+                id="profile-last-name"
+                name="last_name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="profile-email">Email</label>
+              <input type="email" id="profile-email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="profile-phone">Phone</label>
+              <input type="tel" id="profile-phone" name="phone" />
+            </div>
+            <div class="form-group">
+              <label for="profile-department">Department</label>
+              <input type="text" id="profile-department" name="department" />
+            </div>
+            <div class="form-group">
+              <label for="profile-username">Username</label>
+              <input
+                type="text"
+                id="profile-username"
+                name="username"
+                readonly
+                style="background: #f5f5f5"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="profile-role">Role</label>
+            <input
+              type="text"
+              id="profile-role"
+              readonly
+              style="background: #f5f5f5"
+            />
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="cancel-profile">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Update Profile
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div id="change-password-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Change Password</h3>
+          <span class="close">&times;</span>
+        </div>
+        <form id="change-password-form">
+          <div class="form-group">
+            <label for="current-password">Current Password</label>
+            <input
+              type="password"
+              id="current-password"
+              name="currentPassword"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="new-password">New Password</label>
+            <input
+              type="password"
+              id="new-password"
+              name="newPassword"
+              required
+              minlength="6"
+            />
+            <small>Password must be at least 6 characters long</small>
+          </div>
+          <div class="form-group">
+            <label for="confirm-password">Confirm New Password</label>
+            <input
+              type="password"
+              id="confirm-password"
+              name="confirmPassword"
+              required
+            />
+          </div>
+          <div class="form-actions">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="cancel-password"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Change Password
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dropdown.js"></script>
+  </body>
+</html>
